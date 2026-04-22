@@ -13,7 +13,7 @@ import gzip
 import time
 import os
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 
 # --- AYARLAR -------------------------------------------------
 API_URL = "https://api.hypixel.net/v2/skyblock/bazaar"
@@ -73,7 +73,7 @@ def fetch_bazaar():
 
 def save_success(data):
     """Başarılı veriyi gzip sıkıştırmalı JSON dosyasına kaydeder."""
-    now = datetime.utcnow()
+    now = datetime.now(timezone.utc)
     timestamp_str = now.strftime("%Y-%m-%d_%H-%M-%S")
     filename = f"{DATA_DIR}/{timestamp_str}.json.gz"
     try:
@@ -87,7 +87,7 @@ def save_success(data):
 
 def save_gap(error_message):
     """Başarısız istek için gap dosyası oluşturur (gzip sıkıştırmalı)."""
-    now = datetime.utcnow()
+    now = datetime.now(timezone.utc)
     timestamp_str = now.strftime("%Y-%m-%d_%H-%M-%S")
     filename = f"{DATA_DIR}/MISSING_{timestamp_str}.json.gz"
     gap_data = {
